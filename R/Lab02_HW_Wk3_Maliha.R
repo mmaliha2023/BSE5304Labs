@@ -172,34 +172,23 @@ setwd(datadir)
 
 z=raster("mydemHW2_2.tif")
 plot(z)
-title(main='Filled DEM: zoomed to 10 cells')
-zoom(z,ext=zoomext2)
 
 
-# Pitremove
+
+# Pitremove: gives the filled DEM
 system("mpiexec -n 2 pitremove -z mydemHW2_2.tif -fel mydemfel.tif")
 fel=raster("mydemfel.tif")
-plot(fel, main='Difference between DEM and Filled DEM')
+plot(fel, main='Filled DEM of Dead Run: Full Extent')
+plot(bboxpts,add=T)
+plot(pourpoint,add=T,col="red")
 zoom(fel,ext=zoomext2)
-title(main='Difference between DEM and Filled DEM: zoomed to 10 cells')
+title(main='Filled DEM of Dead Run: Zoomed to 10 cells')
 
-#Printing the Difference between DEM and Filled DEM to a pdf
-basestr=format(Sys.time(),"/%Y%m%d%H%M")
-filename=paste0(mypdfdir,basestr, "Lab02DiffDEMFillDEMHW2_Wk3.pdf")
-pdf(filename) 
-plot(fel)
-title(main='Difference between DEM and Filled DEM')
-dev.off()
-print("file size")
-print(file.size(filename))
+#Difference between DEM and filled DEM
 
-#Printing together
-basestr=format(Sys.time(),"/%Y%m%d%H%M")
-filename=paste0(mypdfdir,basestr, "Lab02HW2_Wk3_plots.pdf")
-pdf(filename)
-par(mfrow=c(2,1))
-plot(z, main='Filled DEM') 
-plot(fel, main='Difference between DEM and Filled DEM') 
-dev.off()
-print("file size")
-print(file.size(filename))
+difference= fel-z
+plot(difference)
+title(main='Difference between DEM and Filled DEM of Dead Run: Full Extent')
+zoom(difference,ext=zoomext2)
+title(main='Difference between DEM and Filled DEM of Dead Run: Zoomed to 10 cells')
+

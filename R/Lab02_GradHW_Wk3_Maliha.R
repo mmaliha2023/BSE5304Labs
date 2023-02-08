@@ -131,34 +131,22 @@ setwd(datadir)
 
 z=raster("streamlabDEM.tif")
 plot(z)
-title(main='Stream Lab Filled DEM: zoomed to 10 cells')
-zoom(z,ext=zoomext2)
 
 
-# Pitremove
+
+# Pitremove: gives the filled DEM
 system("mpiexec -n 2 pitremove -z streamlabDEM.tif -fel mydemfel.tif")
 fel=raster("mydemfel.tif")
-plot(fel, main='Stream Lab: Difference between DEM and Filled DEM')
-zoom(fel,ext=zoomext2)
-title(main='Stream Lab: Difference between DEM and Filled DEM (zoomed to 10 cells)')
+plot(fel, main='Filled DEM of StREAM Lab: Full Extent')
+zoom(fel,ext=zoomext)
+title(main='Filled DEM of StREAM Lab: Zoomed to 100 cells')
+plot(bboxpts,add=T)
+plot(pourpoint,add=T,col="red")
 
-#Printing the Difference between DEM and Filled DEM to a pdf
-basestr=format(Sys.time(),"/%Y%m%d%H%M")
-filename=paste0(mypdfdir,basestr, "Lab02DiffDEMFillDEMHW2_Wk3.pdf")
-pdf(filename) 
-plot(fel)
-title(main='Difference between DEM and Filled DEM')
-dev.off()
-print("file size")
-print(file.size(filename))
+#Difference between DEM and filled DEM
 
-#Printing together
-basestr=format(Sys.time(),"/%Y%m%d%H%M")
-filename=paste0(mypdfdir, "Lab02GradHW_plots.pdf")
-pdf(filename)
-par(mfrow=c(2,1))
-plot(z, main='Stream Lab: Filled DEM') 
-plot(fel, main='Stream Lab: Difference between DEM and Filled DEM') 
-dev.off()
-print("file size")
-print(file.size(filename))
+difference= fel-z
+plot(difference)
+title(main='Difference between DEM and Filled DEM of StREAM Lab: Full extent')
+zoom(difference,ext=zoomext)
+title(main='Difference between DEM and Filled DEM of StREAM Lab: Zoomed to 100 cells')

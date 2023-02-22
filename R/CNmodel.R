@@ -75,11 +75,11 @@ CNModel=function(CNmodeldf,CNavg = 75,IaFrac = 0.05,fnc_slope=0,fnc_aspect=0,fun
   rm(list=c("AW", "dP", "ET", "Excess", "Qpred", "S"))
   detach(CNmodeldf)
   
-  NSeff(CNmodeldf$Qpred,CNmodeldf$Qmm)
+  return(NSeff(CNmodeldf$Qpred,CNmodeldf$Qmm))
   
-  plot(CNmodeldf$Qpred)
-  plot(CNmodeldf$Qmm)
-  mean(CNmodeldf$Qmm)
-  mean(CNmodeldf$Qpred)
+  return(plot(CNmodeldf$Qpred))
+  return(plot(CNmodeldf$Qmm))
+  return(mean(CNmodeldf$Qmm))
+  return(mean(CNmodeldf$Qpred))
   
 }

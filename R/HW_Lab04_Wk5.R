@@ -391,7 +391,7 @@ plot(mydemw)
  ###############################################################FUNCTION################################
  detach(TMWB)
  source("https://raw.githubusercontent.com/mmaliha2023/BSE5304Labs/main/R/MyTMWBModel.R")
- TMWBnew=TMWBmodel(TMWB, Z=300)
+ TMWBnew=TMWBmodel(TMWB, fcres=.2,FldCap=.20,WiltPt=.12,Z=200)
  #Make a plot that has Qmm, P,and Qpred over time
  plot(TMWBnew$date,TMWBnew$P,col="black")
  lines(TMWBnew$date,TMWBnew$Qmm,type = "l",col="red")
@@ -435,10 +435,9 @@ plot(mydemw)
  #   Qpred=dP^2/(dP+S)
  #
  NSE(Qmm,dP^2/(dP+260))
- # [1] 0.02375528
+ 
    NSE(Qmm,dP^2/(dP+45))
- #[1] -0.5212436
- #
+
  # Keep iterating until NSE is as high as you can get for your 
  
  # best estimate to S (Sest)
@@ -453,7 +452,19 @@ plot(mydemw)
  points(dP,dP^2/(dP+Sest),col="red") 
  ########
  detach(BasinTMWB_JO)
+####################################################CNmodel#######################################################
+ #CNmodeldf = BasinData
+
  
- 
- 
+ # Energy Balance based Snow Accumulation 
+ # and Melt model from the EcoHydRology package.
+ source("https://raw.githubusercontent.com/mmaliha2023/BSE5304Labs/main/R/CNmodel.R")
+CNmodelnew=CNModel(BasinData,func_z=200,fnc_fcres=.2) 
+NSeff(CNmodeldf$Qpred,CNmodeldf$Qmm)
+
+plot(CNmodeldf$Qpred)
+plot(CNmodeldf$Qmm)
+mean(CNmodeldf$Qmm)
+mean(CNmodeldf$Qpred)
+
  

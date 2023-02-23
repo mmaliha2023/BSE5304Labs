@@ -394,9 +394,10 @@ plot(mydemw)
  TMWBnew=TMWBmodel(TMWB, fcres=.2,FldCap=.20,WiltPt=.12,Z=200)
  #Make a plot that has Qmm, P,and Qpred over time
  plot(TMWBnew$date,TMWBnew$P,col="black")
- lines(TMWBnew$date,TMWBnew$Qmm,type = "l",col="red")
- lines(TMWBnew$date,TMWBnew$Qpred,col="blue")
- plot(TMWBnew$Qmm, TMWBnew$Qpred)
+ plot(TMWBnew$date,TMWBnew$Qmm,type = "l",col="red", xlab= 'Year', ylab="Qmm", main="TMWB model obtained Qmm" )
+ 
+ plot(TMWBnew$date,TMWBnew$Qpred,type='l', col="blue",xlab= 'Year', ylab="Qpred", main="TMWB model obtained Qpred")
+ plot(TMWBnew$Qmm, TMWBnew$Qpred, xlab='Qmm obtained from TMWB model', ylab='Qpred obtained from TMWB model', main='x-y plot of Predicted vs Observed from TMWB')
  
  NSE=function(Qobs,Qsim){
    return(1-sum((Qobs-Qsim)^2,na.rm=TRUE)/sum((Qobs-mean(Qobs, na.rm=TRUE))^2, na.rm=TRUE))
@@ -459,11 +460,12 @@ plot(mydemw)
  # Energy Balance based Snow Accumulation 
  # and Melt model from the EcoHydRology package.
  source("https://raw.githubusercontent.com/mmaliha2023/BSE5304Labs/main/R/CNmodel.R")
-CNmodelnew=CNModel(BasinData,func_z=200,fnc_fcres=.2) 
-NSeff(CNmodeldf$Qpred,CNmodeldf$Qmm)
+CNmodelnew=CNModel(BasinData,CNavg = 75, func_z=1000,fnc_fcres=.2) 
+NSE(CNmodelnew$Qpred,CNmodelnew$Qmm)
 
-plot(CNmodeldf$Qpred)
-plot(CNmodeldf$Qmm)
+plot(CNmodeldf$date, CNmodeldf$Qpred, type='l',col="blue", xlab= 'Year', ylab="Qpred", main="CN model obtained Qpred")
+plot(CNmodeldf$Qmm, type='l',col="red", xlab= 'Year', ylab="Qmm", main="CN model obtained Qmm")
+plot(CNmodeldf$Qmm, CNmodeldf$Qpred, xlab='Qmm obtained from CN model', ylab='Qpred obtained from CN model', main='x-y plot of Predicted vs Observed from CN')
 mean(CNmodeldf$Qmm)
 mean(CNmodeldf$Qpred)
 
